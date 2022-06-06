@@ -1,0 +1,29 @@
+{
+  "name": "oko",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "setup": "npm install nodemon -g && npm i",
+    "postinstall": "npm run webpack",
+    "webpack": "./node_modules/webpack/bin/webpack.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "npm run webpack -- -w & nodemon --ignore src/ --ignore dist/ server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "chalk": "^2.3.0",
+    "express": "^4.15.4",
+    "morgan": "^1.9.0",
+    "pg": "^7.3.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "webpack": "^3.5.6"
+  }
+}
