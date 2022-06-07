@@ -38,7 +38,7 @@ app.post('/select', async (req, res, next) => {
         res.send({});
     });
 });
-app.post('/display', (req, res, next) => {
+app.get('/display', (req, res, next) => {
     exec('feh -F file.jpg', (err, stdout, stderr) => {
         if (err) {
             console.error("couldn't display", err);
