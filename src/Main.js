@@ -11,6 +11,12 @@ export default function Main() {
             .then(res => setActual(res));
     }
 
+    function displayActual() {
+        fetch('/display')
+            .then(res => res.json())
+            .then(res => setList(res));
+    }
+
     function fetchList() {
         setLoading('LOADING...')
         fetch('/list')
@@ -46,20 +52,23 @@ export default function Main() {
         <div>
             <h1>Monar Oko !</h1>
             <button type="button" onClick={fetchActual}>Actual NFT ?</button>
-            <br/>
-            <br/>
+            <br />
+            <br />
             <text>{actual}</text>
-            <br/>
-            <br/>
+            <br />
+            <br />
+            <button type="button" onClick={displayActual}>Display</button>
+            <br />
+            <br />
             <button type="button" onClick={fetchList}>Fetch NFT list</button>
             <b>&emsp;{loading}</b>
             <hr />
             {list.map(nft => {
                 return (
                     <div key={nft.id}>
-                        <text>{nft.id}</text> <br/>
+                        <text>{nft.id}</text> <br />
                         <h3>{nft.name}</h3>
-                        <text>{nft.description}</text> <br/><br/>
+                        <text>{nft.description}</text> <br /><br />
                         <button onClick={() => selectNft(nft)}>Select</button>
                         <hr />
                     </div>

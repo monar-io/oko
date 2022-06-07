@@ -5,6 +5,7 @@ const fs = require("fs");
 const rp = require("request-promise");
 const cors = require('cors')
 const https = require('https');
+const { exec } = require('child_process');
 
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 app.use(cors());
@@ -31,12 +32,19 @@ app.get('/list', async (req, res, next) => {
 app.post('/select', async (req, res, next) => {
     fs.writeFileSync('./data/actual_nft.txt', `${req.body.id} - ${req.body.name} - ${req.body.description}`);
     const file = fs.createWriteStream("file.jpg");
-    https.get(req.body.ipfs, function(response) {
+    https.get(req.body.ipfs, function (response) {
         // run feh to display image
         response.pipe(file);
         res.send({});
     });
-})
+});
+app.post('/display', (req, res, next) => {
+    exec('feh -F file.jpg', (err, stdout, stderr) => {
+        if (err) {
+            console.error("couldn't display", err);
+        }
+    });
+});
 
 const port = 1337;
 app.listen(process.env.PORT || port, () => console.log(`Listening intently on port ${port}`));
