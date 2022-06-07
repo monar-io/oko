@@ -57,9 +57,6 @@ export default function Main() {
             <text>{actual}</text>
             <br />
             <br />
-            <button type="button" onClick={displayActual}>Display</button>
-            <br />
-            <br />
             <button type="button" onClick={fetchList}>Fetch NFT list</button>
             <b>&emsp;{loading}</b>
             <hr />

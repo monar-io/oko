@@ -21,7 +21,7 @@ app.get('/list', async (req, res, next) => {
     const userId = fs.readFileSync("./data/user_id.txt", "utf8");
     const list = await rp({
         method: 'GET',
-        uri: `https://content.monar.io/artist/${userId}`,
+        uri: `https://content.dev.monar.io/artist/${userId}`,
         headers: {
             "x-api-key": apiKey,
         },
@@ -35,14 +35,12 @@ app.post('/select', async (req, res, next) => {
     https.get(req.body.ipfs, function (response) {
         // run feh to display image
         response.pipe(file);
-        res.send({});
-    });
-});
-app.get('/display', (req, res, next) => {
-    exec('feh -F file.jpg', (err, stdout, stderr) => {
-        if (err) {
-            console.error("couldn't display", err);
-        }
+        exec('feh -F file.jpg', (err, stdout, stderr) => {
+            if (err) {
+                console.error("couldn't display", err);
+            }
+            res.send({});
+        });
     });
 });
 
