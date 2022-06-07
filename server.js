@@ -20,7 +20,7 @@ app.get('/list', async (req, res, next) => {
     const userId = fs.readFileSync("./data/user_id.txt", "utf8");
     const list = await rp({
         method: 'GET',
-        uri: `https://content.dev.monar.io/artist/${userId}`,
+        uri: `https://content.monar.io/artist/${userId}`,
         headers: {
             "x-api-key": apiKey,
         },
