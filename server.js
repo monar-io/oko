@@ -1,25 +1,42 @@
-//Requires
 const express = require('express');
 const app = express();
 const path = require('path');
-const chalk = require('chalk');
-const morgan = require('morgan');
 const fs = require("fs");
+const rp = require("request-promise");
+const cors = require('cors')
+const https = require('https');
 
-//Static Routes
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
-app.use(morgan('dev')) // logging
+app.use(cors());
+app.use(express.json());
 
-//Main App Route
 app.get('/', (req, res, next) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/actual', (req, res, next) => {
     const actual = fs.readFileSync("./data/actual_nft.txt", "utf8");
     res.send(actual);
 });
-app.get('/list', (req, res, next) => {
-    res.send('xd');
+app.get('/list', async (req, res, next) => {
+    const apiKey = fs.readFileSync("./data/api_key.txt", "utf8");
+    const userId = fs.readFileSync("./data/user_id.txt", "utf8");
+    const list = await rp({
+        method: 'GET',
+        uri: `https://content.dev.monar.io/artist/${userId}`,
+        headers: {
+            "x-api-key": apiKey,
+        },
+        json: true
+    });
+    res.send(list);
 });
+app.post('/select', async (req, res, next) => {
+    fs.writeFileSync('./data/actual_nft.txt', `${req.body.id} - ${req.body.name} - ${req.body.description}`);
+    const file = fs.createWriteStream("file.jpg");
+    https.get(req.body.ipfs, function(response) {
+        // run feh to display image
+        response.pipe(file);
+        res.send({});
+    });
+})
 
-//Run Server
 const port = 1337;
-app.listen(process.env.PORT || port, () => console.log(chalk.blue(`Listening intently on port ${port}`)));
+app.listen(process.env.PORT || port, () => console.log(`Listening intently on port ${port}`));
