@@ -34,7 +34,7 @@ app.post('/select', async (req, res, next) => {
     const file = fs.createWriteStream("file.jpg");
     https.get(req.body.ipfs, function (response) {
         response.pipe(file);
-        exec('pidof feh && pkill feh', (err, stdout, stderr) => {
+        exec('pidof feh && sudo pkill feh', (err, stdout, stderr) => {
             exec('feh -F --hide-pointer file.jpg', (err, stdout, stderr) => {
                 if (err) {
                     console.error("couldn't display", err);
