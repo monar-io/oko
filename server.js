@@ -33,12 +33,13 @@ app.post('/select', async (req, res, next) => {
     fs.writeFileSync('./data/actual_nft.txt', `${req.body.id} - ${req.body.name} - ${req.body.description}`);
     const file = fs.createWriteStream("file.jpg");
     https.get(req.body.ipfs, function (response) {
-        // run feh to display image
         response.pipe(file);
-        exec('feh -F file.jpg', (err, stdout, stderr) => {
-            if (err) {
-                console.error("couldn't display", err);
-            }
+        exec('pidof feh && pkill feh', (err, stdout, stderr) => {
+            exec('feh -F --hide-pointer file.jpg', (err, stdout, stderr) => {
+                if (err) {
+                    console.error("couldn't display", err);
+                }
+            });
             res.send({});
         });
     });
