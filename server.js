@@ -40,8 +40,8 @@ app.post('/select', async (req, res, next) => {
                     console.error("couldn't display", err);
                 }
             });
-            res.send({});
         });
+        res.send({});
     });
 });
 
